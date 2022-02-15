@@ -249,6 +249,7 @@ while True:
     if turn(computer, True):
         break
 
+os.makedirs("%appdata%\milk\onecard\log", exist_ok=True)
 os.chdir("%appdata%\milk\onecard\log")
 log_name = str(int(time.time()*1000000))+".txt"
 f = open(log_name, "w", encoding="utf-8")
