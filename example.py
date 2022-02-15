@@ -249,7 +249,7 @@ while True:
     if turn(computer, True):
         break
 
-os.chdir("D:/coding/python/project/원카드/log")
+os.chdir("%appdata%\milk\onecard\log")
 log_name = str(int(time.time()*1000000))+".txt"
 f = open(log_name, "w", encoding="utf-8")
 for i in log:
