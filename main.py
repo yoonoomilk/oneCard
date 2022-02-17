@@ -1,11 +1,98 @@
 import random
 import time
 import os
-import milk_card
-import milk_error
+
+spade = """
+ ㅡㅡㅡㅡㅡㅡ
+|            |
+|     ■■     |
+|    ■■■■    |
+|  ■■■■■■■■  |
+| ■■■■  ■■■■ |
+| ■■  ■■  ■■ |
+|     ■■     |
+|    ■■■■    |
+ ㅡㅡㅡㅡㅡㅡ
+"""[1:-1]
+clover = """
+ ㅡㅡㅡㅡㅡㅡ
+|            |
+|     ■■     |
+|    ■■■■    |
+|  ■■ ■■ ■■  |
+| ■■■■■■■■■■ |
+|  ■■ ■■ ■■  |
+|    ■■■■    |
+|   ■■■■■■   |
+ ㅡㅡㅡㅡㅡㅡ
+"""[1:-1]
+heart = """
+ ㅡㅡㅡㅡㅡㅡ
+|            |
+|  ■      ■  |
+| ■■■■  ■■■■ |
+| ■■■■■■■■■■ |
+|  ■■■■■■■■  |
+|   ■■■■■■   |
+|    ■■■■    |
+|     ■■     |
+ ㅡㅡㅡㅡㅡㅡ
+"""[1:-1]
+diamond = """
+ ㅡㅡㅡㅡㅡㅡ
+|            |
+|     ■■     |
+|    ■■■■    |
+|   ■■■■■■   |
+|  ■■■■■■■■  |
+|   ■■■■■■   |
+|    ■■■■    |
+|     ■■     |
+ ㅡㅡㅡㅡㅡㅡ
+"""[1:-1]
+joker = """
+ ㅡㅡㅡㅡㅡㅡ
+|            |
+|            |
+|  ■      ■  |
+|     ■■     |
+|  ■      ■  |
+|  ■■    ■■  |
+|   ■    ■   |
+|    ■■■■    |
+ ㅡㅡㅡㅡㅡㅡ
+"""[1:-1]
+
+def show(temp):
+    (shape_temp, num) = temp
+    if shape_temp == "♠":
+        shape = spade
+    elif shape_temp == "♣":
+        shape = clover
+    elif shape_temp == "♥":
+        shape = heart
+    elif shape_temp == "♦":
+        shape = diamond
+    else:
+        shape = joker
+    if len(num) == 1:
+        num = " " + num
+    elif num == "colored":
+        num = " ♦"
+    elif num == "black":
+        num = " ♠"
+    shape = list(shape)
+    shape[18:20] = num
+    return "".join(shape)
+
+def isNumber(n):
+  try:
+    int(n)
+    return True
+  except:
+    return False
 
 # 가능한 카드 리스트를 반환
-
 def getAvailable(hand, last_card, is_attack):
     available = []
     if not is_attack and last_card[0] == "Joker":
@@ -91,7 +178,7 @@ def print_message(message):
     os.system("cls")
 
     output = []
-    output.append(f"마지막으로 놓은 카드\n{milk_card.show(put[-1])}")
+    output.append(f"마지막으로 놓은 카드\n{show(put[-1])}")
     output.append(f"현재 있는 카드     \t{hand_str(player)}")
     output.append(f"놓을 수 있는 카드  \t{hand_str(getAvailable(player, put[-1], is_attack))}")
     output.append("-" * 30)
@@ -168,7 +255,7 @@ def turn(hand, isComputer):
             i = 0
             while True:
                 i = input("몇 번째 카드를 내시겠습니까? ")
-                if milk_error.isNumber(i):
+                if isNumber(i):
                     i = int(i)
                     if -1 < i-1 < len(available):
                         selected = available[i-1]
